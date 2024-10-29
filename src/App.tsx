@@ -1,9 +1,26 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./components/AppLayout";
+import Home from "./pages/Home";
+import Country from "./pages/Country";
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/country/:countryName",
+        element: <Country />,
+      },
+    ],
+  },
+]);
+
 function App() {
-  return (
-    <div className="grid min-h-screen place-items-center bg-slate-900">
-      <h1 className="text-5xl text-white">Hello, World!</h1>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
