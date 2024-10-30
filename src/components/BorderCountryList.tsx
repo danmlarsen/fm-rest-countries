@@ -1,6 +1,12 @@
 import { NavLink } from "react-router-dom";
 
-export default function BorderCountryList({ borderCountries }) {
+import { IBorderCountry } from "../pages/Country";
+
+type AppProps = {
+  borderCountries: IBorderCountry[];
+};
+
+export default function BorderCountryList({ borderCountries }: AppProps) {
   return (
     <ul className="flex flex-wrap gap-3">
       {borderCountries.map((country) => (

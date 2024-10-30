@@ -1,6 +1,12 @@
 import BorderCountryList from "./BorderCountryList";
 
-export default function CountryDetails({ country }) {
+import { ICountryData } from "../pages/Country";
+
+type AppProps = {
+  country: ICountryData;
+};
+
+export default function CountryDetails({ country }: AppProps) {
   const {
     name,
     flags,
@@ -19,10 +25,12 @@ export default function CountryDetails({ country }) {
   const nativeName = Object.values(name.nativeName)
     .map((name) => name.common)
     .join(", ");
-  const formattedPopulation = new Intl.NumberFormat().format(population);
-  const formattedCurrencies = Object.values(currencies)
-    .map((cur) => cur.name)
-    .join(", ");
+  const formattedPopulation = new Intl.NumberFormat().format(+population);
+  const formattedCurrencies = currencies
+    ? Object.values(currencies)
+        .map((cur) => cur.name)
+        .join(", ")
+    : "";
   const formattedLanguages = Object.values(languages).join(", ");
   const formattedTld = tld ? tld.join(" ") : "None";
 
@@ -40,7 +48,7 @@ export default function CountryDetails({ country }) {
               <Detail field="Population" data={formattedPopulation} />
               <Detail field="Region" data={region} />
               <Detail field="Sub Region" data={subregion} />
-              <Detail field="Capital" data={capital[0]} />
+              <Detail field="Capital" data={capital?.[0]} />
             </div>
             <div>
               <Detail field="Top Level Domain" data={formattedTld} />
@@ -58,7 +66,7 @@ export default function CountryDetails({ country }) {
   );
 }
 
-function Detail({ field, data }) {
+function Detail({ field, data }: { field: string; data: string }) {
   return (
     <p>
       <strong className="font-semibold">{field}: </strong>
