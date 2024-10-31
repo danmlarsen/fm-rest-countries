@@ -1,11 +1,17 @@
+import { useSearchParams } from "react-router-dom";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 
-type AppProps = {
-  value: string | null;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+export default function CountrySearch() {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-export default function CountrySearch({ value, onChange }: AppProps) {
+  function handleCountrySearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const countrySearch = event.target.value.trim().toLowerCase();
+    if (countrySearch) searchParams.set("country", countrySearch);
+    else searchParams.delete("country");
+
+    setSearchParams(searchParams);
+  }
+
   return (
     <div className="relative flex w-full max-w-[480px] items-center gap-6 rounded-md px-8 shadow-md dark:bg-blue-500">
       <HiMagnifyingGlass className="size-4 md:size-[18px]" />
@@ -16,8 +22,8 @@ export default function CountrySearch({ value, onChange }: AppProps) {
         id="countryName"
         placeholder="Search for a country..."
         autoComplete="off"
-        value={value || ""}
-        onChange={onChange}
+        value={searchParams.get("country") || ""}
+        onChange={handleCountrySearch}
       />
     </div>
   );

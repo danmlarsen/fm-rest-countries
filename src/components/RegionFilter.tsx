@@ -1,3 +1,5 @@
+import { useSearchParams } from "react-router-dom";
+
 const regions = [
   { value: "africa", label: "Africa" },
   { value: "americas", label: "America" },
@@ -6,19 +8,26 @@ const regions = [
   { value: "oceania", label: "Oceania" },
 ];
 
-type AppProps = {
-  value: string | null;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-};
+export default function RegionFilter() {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-export default function RegionFilter({ value, onChange }: AppProps) {
+  function handleRegionFilterChange(
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) {
+    const region = event.target.value;
+    if (region) searchParams.set("region", event.target.value);
+    else searchParams.delete("region");
+
+    setSearchParams(searchParams);
+  }
+
   return (
     <div className="w-full max-w-[200px] rounded-md shadow-md dark:bg-blue-500">
       <select
         className="h-full bg-transparent px-6 py-4 text-sm focus:outline-none dark:bg-blue-500"
         name="selectedRegion"
-        value={value || ""}
-        onChange={onChange}
+        value={searchParams.get("region") || ""}
+        onChange={handleRegionFilterChange}
       >
         <option value="">Filter by Region</option>
         {regions.map((region) => (

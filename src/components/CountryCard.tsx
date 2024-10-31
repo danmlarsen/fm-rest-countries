@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { ICountryCardData } from "../pages/Home";
+import { ICountryCardData } from "./CountryList";
 
 type AppProps = {
   country: ICountryCardData;
@@ -10,7 +10,7 @@ export default function CountryCard({ country }: AppProps) {
 
   return (
     <NavLink to={`/country/${cca.toLowerCase()}`}>
-      <article className="min-h-[336px] w-[264px] overflow-hidden rounded-md bg-white shadow-lg dark:bg-blue-500">
+      <article className="min-h-[336px] w-[264px] overflow-hidden rounded-md bg-white text-sm shadow-lg dark:bg-blue-500">
         <div>
           <img
             className="h-[160px] w-full object-cover"
@@ -18,7 +18,7 @@ export default function CountryCard({ country }: AppProps) {
             alt={flags.alt}
           />
         </div>
-        <div className="p-6">
+        <div className="space-y-4 p-6">
           <h2 className="text-lg font-extrabold">{name.common}</h2>
 
           <div>

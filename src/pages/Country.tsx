@@ -38,8 +38,8 @@ export default function Country() {
 
   const {
     data: country,
-    isLoading,
-    error,
+    // isLoading,
+    // error,
   } = useQuery<ICountryData>({
     queryKey: ["countries", countryName],
     queryFn: () => getCountry(countryName || ""),
