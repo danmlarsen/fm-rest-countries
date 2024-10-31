@@ -1,18 +1,22 @@
+import { HiMagnifyingGlass } from "react-icons/hi2";
+
 type AppProps = {
-  value: string;
+  value: string | null;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function CountrySearch({ value, onChange }: AppProps) {
   return (
-    <div className="max-w-[480px]">
+    <div className="relative flex w-full max-w-[480px] items-center gap-6 rounded-md px-8 shadow-md dark:bg-blue-500">
+      <HiMagnifyingGlass className="size-4 md:size-[18px]" />
       <input
-        className="w-full px-8 py-4 focus:outline-none"
+        className="h-full w-full bg-transparent py-4 text-sm focus:outline-none dark:placeholder:text-white"
         type="text"
         name="countryName"
         id="countryName"
         placeholder="Search for a country..."
-        value={value}
+        autoComplete="off"
+        value={value || ""}
         onChange={onChange}
       />
     </div>

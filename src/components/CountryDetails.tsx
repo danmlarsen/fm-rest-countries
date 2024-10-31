@@ -20,8 +20,6 @@ export default function CountryDetails({ country }: AppProps) {
     borders,
   } = country;
 
-  console.log(country);
-
   const nativeName = Object.values(name.nativeName)
     .map((name) => name.common)
     .join(", ");
@@ -36,11 +34,17 @@ export default function CountryDetails({ country }: AppProps) {
 
   return (
     <article>
-      <div className="grid items-center gap-10 md:grid-cols-2">
-        <div>
-          <img src={flags.svg} alt={flags.alt} />
+      <div className="container mx-auto grid items-center justify-center gap-10 lg:grid-cols-2">
+        <div className="flex items-center justify-center">
+          <div className="overflow-hidden rounded-xl">
+            <img
+              className="h-full max-h-[400px] w-full object-cover"
+              src={flags.svg}
+              alt={flags.alt}
+            />
+          </div>
         </div>
-        <div className="space-y-4 text-sm">
+        <div className="max-w-lg space-y-4 text-sm lg:max-w-full">
           <h2 className="text-2xl font-extrabold">{name.common}</h2>
           <div className="grid gap-8 md:grid-cols-2">
             <div>
@@ -56,8 +60,10 @@ export default function CountryDetails({ country }: AppProps) {
               <Detail field="Languages" data={formattedLanguages} />
             </div>
           </div>
-          <div>
-            <h3 className="text-base font-extrabold">Border Countries:</h3>
+          <div className="flex flex-col gap-4 md:flex-row">
+            <h3 className="flex-shrink-0 text-base font-extrabold leading-10">
+              Border Countries:
+            </h3>
             <BorderCountryList borderCountries={borders} />
           </div>
         </div>

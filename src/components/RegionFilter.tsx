@@ -7,17 +7,17 @@ const regions = [
 ];
 
 type AppProps = {
-  value: string;
+  value: string | null;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export default function RegionFilter({ value, onChange }: AppProps) {
   return (
-    <div className="max-w-[200px]">
+    <div className="w-full max-w-[200px] rounded-md shadow-md dark:bg-blue-500">
       <select
-        className="px-6 py-4 focus:outline-none"
+        className="h-full bg-transparent px-6 py-4 text-sm focus:outline-none"
         name="selectedRegion"
-        value={value}
+        value={value || ""}
         onChange={onChange}
       >
         <option value="">Filter by Region</option>

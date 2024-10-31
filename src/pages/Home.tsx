@@ -4,6 +4,7 @@ import CountryList from "../components/CountryList";
 import CountrySearch from "../components/CountrySearch";
 import RegionFilter from "../components/RegionFilter";
 import { ICountryName } from "./Country";
+import { useSearchParams } from "react-router-dom";
 
 export interface ICountryCardData {
   name: ICountryName;
@@ -16,8 +17,25 @@ export interface ICountryCardData {
 
 export default function Home() {
   const [countries, setCountries] = useState<ICountryCardData[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [countrySearch, setCountrySearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function handleCountrySearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const countrySearch = event.target.value.trim().toLowerCase();
+    if (countrySearch) searchParams.set("country", countrySearch);
+    else searchParams.delete("country");
+
+    setSearchParams(searchParams);
+  }
+
+  function handleRegionFilterChange(
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) {
+    const region = event.target.value;
+    if (region) searchParams.set("region", event.target.value);
+    else searchParams.delete("region");
+
+    setSearchParams(searchParams);
+  }
 
   useEffect(() => {
     async function handleFetch() {
@@ -29,8 +47,6 @@ export default function Home() {
 
       const data = await res.json();
 
-      console.log(data);
-
       setCountries(data);
     }
 
@@ -39,26 +55,26 @@ export default function Home() {
 
   let filteredCountries = countries;
 
-  if (selectedRegion && filteredCountries)
+  if (searchParams.get("region") && filteredCountries)
     filteredCountries = filteredCountries.filter(
-      (country) => country.region.toLowerCase() === selectedRegion,
+      (country) => country.region.toLowerCase() === searchParams.get("region"),
     );
 
   filteredCountries =
-    countrySearch && filteredCountries
+    searchParams.get("country") && filteredCountries
       ? filteredCountries.filter((country) => {
           // Filter by common name
           if (
             country.name.common
               .toLowerCase()
-              .includes(countrySearch.toLowerCase())
+              .includes(searchParams.get("country")!)
           )
             return true;
 
           // Filter by native names
           if (
             Object.values(country.name.nativeName).find((name) =>
-              name.common.toLowerCase().includes(countrySearch.toLowerCase()),
+              name.common.toLowerCase().includes(searchParams.get("country")!),
             )
           )
             return true;
@@ -67,16 +83,23 @@ export default function Home() {
         })
       : filteredCountries;
 
+  // const sortedCountries = filteredCountries.sort((a, b) => {
+  //   if (a.name.common < b.name.common) return -1;
+  //   else if (a.name.common > b.name.common) return 1;
+  //   return 0;
+  // });
+  // console.log(sortedCountries);
+
   return (
     <div className="space-y-12">
-      <div className="flex flex-col justify-between md:flex-row">
+      <div className="flex min-h-14 flex-col justify-between gap-10 sm:flex-row">
         <CountrySearch
-          value={countrySearch}
-          onChange={(e) => setCountrySearch(e.target.value)}
+          value={searchParams.get("country")}
+          onChange={handleCountrySearch}
         />
         <RegionFilter
-          value={selectedRegion}
-          onChange={(e) => setSelectedRegion(e.target.value)}
+          value={searchParams.get("region")}
+          onChange={handleRegionFilterChange}
         />
       </div>
       <div>{countries && <CountryList countries={filteredCountries} />}</div>

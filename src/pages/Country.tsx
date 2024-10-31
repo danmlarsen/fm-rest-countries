@@ -75,7 +75,7 @@ export default function Country() {
   }, [countryName]);
 
   return (
-    <article className="space-y-20">
+    <article className="space-y-16 md:space-y-20">
       <div>
         <BackButton onClick={() => navigate("/")} />
       </div>
