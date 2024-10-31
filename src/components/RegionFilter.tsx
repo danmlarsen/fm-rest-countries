@@ -15,7 +15,7 @@ export default function RegionFilter({ value, onChange }: AppProps) {
   return (
     <div className="w-full max-w-[200px] rounded-md shadow-md dark:bg-blue-500">
       <select
-        className="h-full bg-transparent px-6 py-4 text-sm focus:outline-none"
+        className="h-full bg-transparent px-6 py-4 text-sm focus:outline-none dark:bg-blue-500"
         name="selectedRegion"
         value={value || ""}
         onChange={onChange}

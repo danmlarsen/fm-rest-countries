@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getCountry } from "../services/apiRestCountries";
 
 import CountryDetails from "../components/CountryDetails";
-import { useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
 
 export interface ICountryName {
@@ -35,44 +36,14 @@ export default function Country() {
   const { countryName } = useParams();
   const navigate = useNavigate();
 
-  const [country, setCountry] = useState<ICountryData | null>(null);
-
-  useEffect(() => {
-    async function handleFetch() {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/alpha/${countryName}`,
-      );
-
-      if (!res.ok) throw new Error("Fetch failed...");
-
-      const [data] = await res.json();
-
-      let borderCountryData = [];
-      if (data.borders?.length > 0) {
-        const borderCountryCodes = data.borders.join(",").toLowerCase();
-        const borderCountryRes = await fetch(
-          `https://restcountries.com/v3.1/alpha?codes=${borderCountryCodes}&fields=name,cca2`,
-        );
-        borderCountryData = await borderCountryRes.json();
-      }
-
-      const formattedData = {
-        ...data,
-        borders: borderCountryData.map(
-          (borderCountry: { name: ICountryName; cca2: string }) => {
-            return {
-              name: borderCountry.name.common,
-              shortname: borderCountry.cca2,
-            };
-          },
-        ),
-      };
-
-      setCountry(formattedData);
-    }
-
-    handleFetch();
-  }, [countryName]);
+  const {
+    data: country,
+    isLoading,
+    error,
+  } = useQuery<ICountryData>({
+    queryKey: ["countries", countryName],
+    queryFn: () => getCountry(countryName || ""),
+  });
 
   return (
     <article className="space-y-16 md:space-y-20">

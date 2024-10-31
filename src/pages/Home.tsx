@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getCountries } from "../services/apiRestCountries";
 
+import { ICountryName } from "./Country";
 import CountryList from "../components/CountryList";
 import CountrySearch from "../components/CountrySearch";
 import RegionFilter from "../components/RegionFilter";
-import { ICountryName } from "./Country";
-import { useSearchParams } from "react-router-dom";
 
 export interface ICountryCardData {
   name: ICountryName;
@@ -16,7 +17,15 @@ export interface ICountryCardData {
 }
 
 export default function Home() {
-  const [countries, setCountries] = useState<ICountryCardData[]>([]);
+  const {
+    data: countries,
+    isLoading,
+    error,
+  } = useQuery<ICountryCardData[]>({
+    queryKey: ["countries"],
+    queryFn: getCountries,
+  });
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleCountrySearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -36,22 +45,6 @@ export default function Home() {
 
     setSearchParams(searchParams);
   }
-
-  useEffect(() => {
-    async function handleFetch() {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,cca2`,
-      );
-
-      if (!res.ok) throw new Error("Fetch failed...");
-
-      const data = await res.json();
-
-      setCountries(data);
-    }
-
-    handleFetch();
-  }, []);
 
   let filteredCountries = countries;
 
@@ -102,7 +95,13 @@ export default function Home() {
           onChange={handleRegionFilterChange}
         />
       </div>
-      <div>{countries && <CountryList countries={filteredCountries} />}</div>
+      <div className="space-y-10 lg:space-y-16">
+        {countries && (
+          <>
+            {filteredCountries && <CountryList countries={filteredCountries} />}
+          </>
+        )}
+      </div>
     </div>
   );
 }
