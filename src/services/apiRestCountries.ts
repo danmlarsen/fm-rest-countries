@@ -1,23 +1,24 @@
-import { ICountryName } from "../pages/Country";
+import { ICountryCardData } from "../components/CountryList";
+import { ICountryData, ICountryName } from "../pages/Country";
 
-export async function getCountries() {
+export async function getCountries(): Promise<ICountryCardData[]> {
   const res = await fetch(
     `https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,cca2`,
   );
 
-  if (!res.ok) throw new Error("Fetch failed...");
+  if (!res.ok) throw new Error("Error fetching countries.");
 
   const data = await res.json();
 
   return data;
 }
 
-export async function getCountry(countryName: string) {
+export async function getCountry(countryName: string): Promise<ICountryData> {
   const res = await fetch(
     `https://restcountries.com/v3.1/alpha/${countryName}`,
   );
 
-  if (!res.ok) throw new Error("Fetch failed...");
+  if (!res.ok) throw new Error("Error fetching country details.");
 
   const [data] = await res.json();
 
@@ -27,6 +28,10 @@ export async function getCountry(countryName: string) {
     const borderCountryRes = await fetch(
       `https://restcountries.com/v3.1/alpha?codes=${borderCountryCodes}&fields=name,cca2`,
     );
+
+    if (!borderCountryRes.ok)
+      throw new Error("Error fetching border countries.");
+
     borderCountryData = await borderCountryRes.json();
   }
 

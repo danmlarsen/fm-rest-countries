@@ -1,6 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getCountry } from "../services/apiRestCountries";
+import { useNavigate } from "react-router-dom";
 
 import CountryDetails from "../components/CountryDetails";
 import BackButton from "../components/BackButton";
@@ -33,17 +31,7 @@ export interface IBorderCountry {
 }
 
 export default function Country() {
-  const { countryName } = useParams();
   const navigate = useNavigate();
-
-  const {
-    data: country,
-    // isLoading,
-    // error,
-  } = useQuery<ICountryData>({
-    queryKey: ["countries", countryName],
-    queryFn: () => getCountry(countryName || ""),
-  });
 
   return (
     <article className="space-y-16 md:space-y-20">
@@ -51,11 +39,7 @@ export default function Country() {
         <BackButton onClick={() => navigate("/")} />
       </div>
       <div>
-        {country ? (
-          <CountryDetails country={country} />
-        ) : (
-          <p>No country data...</p>
-        )}
+        <CountryDetails />
       </div>
     </article>
   );

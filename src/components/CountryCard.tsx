@@ -1,16 +1,32 @@
 import { NavLink } from "react-router-dom";
 import { ICountryCardData } from "./CountryList";
+import { motion } from "framer-motion";
 
 type AppProps = {
   country: ICountryCardData;
+};
+
+const itemVariant = {
+  hidden: { opacity: 0, y: "10px" },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      ease: "easeInOut",
+    },
+  },
 };
 
 export default function CountryCard({ country }: AppProps) {
   const { name, flags, population, region, capital, cca2: cca } = country;
 
   return (
-    <NavLink to={`/country/${cca.toLowerCase()}`}>
-      <article className="min-h-[336px] w-[264px] overflow-hidden rounded-md bg-white text-sm shadow-lg dark:bg-blue-500">
+    <motion.article
+      layout
+      variants={itemVariant}
+      className="min-h-[336px] w-[264px] overflow-hidden rounded-md bg-white text-sm shadow-lg dark:bg-blue-500"
+    >
+      <NavLink className="block h-full" to={`/country/${cca.toLowerCase()}`}>
         <div>
           <img
             className="h-[160px] w-full object-cover"
@@ -38,7 +54,7 @@ export default function CountryCard({ country }: AppProps) {
             </p>
           </div>
         </div>
-      </article>
-    </NavLink>
+      </NavLink>
+    </motion.article>
   );
 }

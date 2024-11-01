@@ -24,7 +24,8 @@ export default function RegionFilter() {
   return (
     <div className="w-full max-w-[200px] rounded-md shadow-md dark:bg-blue-500">
       <select
-        className="h-full bg-transparent px-6 py-4 text-sm focus:outline-none dark:bg-blue-500"
+        className="h-full cursor-pointer bg-transparent px-6 py-4 text-sm focus:outline-none dark:bg-blue-500"
+        id="selectRegion"
         name="selectedRegion"
         value={searchParams.get("region") || ""}
         onChange={handleRegionFilterChange}

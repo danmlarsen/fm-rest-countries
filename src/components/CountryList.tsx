@@ -8,6 +8,7 @@ import {
   filterByRegion,
   sortTopCountries,
 } from "../utils/utils";
+import { motion } from "framer-motion";
 
 export interface ICountryCardData {
   name: ICountryName;
@@ -17,6 +18,17 @@ export interface ICountryCardData {
   capital: string;
   cca2: string;
 }
+
+const containerVariant = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.05,
+    },
+  },
+};
 
 export default function CountryList() {
   const {
@@ -48,19 +60,19 @@ export default function CountryList() {
       );
   }
 
-  // const sortedCountries = filteredCountries.sort((a, b) => {
-  //   if (a.name.common < b.name.common) return -1;
-  //   else if (a.name.common > b.name.common) return 1;
-  //   return 0;
-  // });
-  // console.log(sortedCountries);
+  if (!filteredCountries) return null;
 
   return (
-    <div className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] justify-items-center gap-10 lg:gap-[74px]">
-      {filteredCountries &&
-        filteredCountries.map((country) => (
-          <CountryCard key={country.name.common} country={country} />
-        ))}
-    </div>
+    <motion.div
+      layoutScroll
+      variants={containerVariant}
+      initial="hidden"
+      animate="show"
+      className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] justify-items-center gap-10 lg:gap-[74px]"
+    >
+      {filteredCountries.map((country) => (
+        <CountryCard key={country.cca2} country={country} />
+      ))}
+    </motion.div>
   );
 }
