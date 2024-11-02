@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import CountryDetails from "../components/CountryDetails";
 import BackButton from "../components/BackButton";
@@ -34,13 +35,18 @@ export default function Country() {
   const navigate = useNavigate();
 
   return (
-    <article className="space-y-16 md:space-y-20">
+    <motion.article
+      key="Country"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="space-y-16 md:space-y-20"
+    >
       <div>
         <BackButton onClick={() => navigate("/")} />
       </div>
       <div>
         <CountryDetails />
       </div>
-    </article>
+    </motion.article>
   );
 }

@@ -65,7 +65,7 @@ export default function CountryDetails() {
                 className="overflow-hidden rounded-xl"
               >
                 <img
-                  className="h-full max-h-[400px] w-full object-cover"
+                  className="min-h-[229px] w-full object-cover lg:min-h-[400px]"
                   src={flags.svg}
                   alt={flags.alt}
                 />

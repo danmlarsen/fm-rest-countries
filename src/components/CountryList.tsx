@@ -70,7 +70,7 @@ export default function CountryList() {
       animate="show"
       className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] justify-items-center gap-10 lg:gap-[74px]"
     >
-      {filteredCountries.map((country) => (
+      {filteredCountries.slice(0, 20).map((country) => (
         <CountryCard key={country.cca2} country={country} />
       ))}
     </motion.div>

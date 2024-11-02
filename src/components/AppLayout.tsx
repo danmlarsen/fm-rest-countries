@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import { AnimatePresence } from "framer-motion";
 
 export default function AppLayout() {
   return (
@@ -7,7 +8,9 @@ export default function AppLayout() {
       <Header />
       <main className="px-7 py-12">
         <div className="container mx-auto max-w-7xl">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <Outlet />
+          </AnimatePresence>
         </div>
       </main>
     </div>

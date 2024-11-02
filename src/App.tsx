@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Country from "./pages/Country";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ThemeContextProvider } from "./context/ThemeContext";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,7 +33,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <ThemeContextProvider>
+        <RouterProvider router={router} />
+      </ThemeContextProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
