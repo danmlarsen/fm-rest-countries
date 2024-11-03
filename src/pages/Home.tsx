@@ -1,9 +1,23 @@
 import { motion } from "framer-motion";
 
-import CountryList from "../components/CountryList";
+import CountryList, { ICountryCardData } from "../components/CountryList";
 import CountryListOperations from "../components/CountryListOperations";
+import { useQuery } from "@tanstack/react-query";
+import { getCountries } from "../services/apiRestCountries";
+import { BounceLoader } from "react-spinners";
 
 export default function Home() {
+  const {
+    data: countries,
+    isLoading,
+    error,
+  } = useQuery<ICountryCardData[]>({
+    queryKey: ["countries"],
+    queryFn: getCountries,
+  });
+
+  if (error) throw new Error(error?.message);
+
   return (
     <motion.div
       key="Home"
@@ -12,7 +26,11 @@ export default function Home() {
       className="space-y-12"
     >
       <CountryListOperations />
-      <CountryList />
+      {isLoading ? (
+        <BounceLoader />
+      ) : (
+        <CountryList countries={countries || []} />
+      )}
     </motion.div>
   );
 }

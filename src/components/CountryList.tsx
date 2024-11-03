@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import CountryCard from "./CountryCard";
-import { getCountries } from "../services/apiRestCountries";
 import { useSearchParams } from "react-router-dom";
 import { ICountryName } from "../pages/Country";
 import {
@@ -9,6 +7,9 @@ import {
   sortTopCountries,
 } from "../utils/utils";
 import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useIntersectionCount } from "../hooks/useIntersectionCount";
+import { PAGE_SIZE } from "../utils/constants";
 
 export interface ICountryCardData {
   name: ICountryName;
@@ -24,29 +25,33 @@ const containerVariant = {
   show: {
     opacity: 1,
     transition: {
-      when: "beforeChildren",
+      // when: "beforeChildren",
       staggerChildren: 0.05,
     },
   },
 };
 
-export default function CountryList() {
-  const {
-    data: countries,
-    // isLoading,
-    // error,
-  } = useQuery<ICountryCardData[]>({
-    queryKey: ["countries"],
-    queryFn: getCountries,
-  });
+export default function CountryList({
+  countries,
+}: {
+  countries: ICountryCardData[];
+}) {
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const maxPages = Math.floor(countries.length / PAGE_SIZE);
+  const bottomIntersectionCount = useIntersectionCount(bottomRef, maxPages);
 
   const [searchParams] = useSearchParams();
 
-  let filteredCountries = countries;
+  const sortedCountries = sortTopCountries(countries);
 
+  const visibleCountries = sortedCountries?.slice(
+    0,
+    bottomIntersectionCount * PAGE_SIZE + PAGE_SIZE,
+  );
+
+  let filteredCountries = visibleCountries;
   if (filteredCountries) {
-    filteredCountries = sortTopCountries(filteredCountries);
-
     if (searchParams.get("region"))
       filteredCountries = filterByRegion(
         filteredCountries,
@@ -60,19 +65,20 @@ export default function CountryList() {
       );
   }
 
-  if (!filteredCountries) return null;
-
   return (
-    <motion.div
-      layoutScroll
-      variants={containerVariant}
-      initial="hidden"
-      animate="show"
-      className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] justify-items-center gap-10 lg:gap-[74px]"
-    >
-      {filteredCountries.slice(0, 20).map((country) => (
-        <CountryCard key={country.cca2} country={country} />
-      ))}
-    </motion.div>
+    <>
+      <motion.div
+        layoutScroll
+        variants={containerVariant}
+        initial="hidden"
+        animate="show"
+        className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] justify-items-center gap-10 lg:gap-[74px]"
+      >
+        {filteredCountries.map((country) => (
+          <CountryCard key={country.cca2} country={country} />
+        ))}
+      </motion.div>
+      <div ref={bottomRef}></div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { ICountryData } from "../pages/Country";
 import { getCountry } from "../services/apiRestCountries";
 import BorderCountryList from "./BorderCountryList";
+import { BounceLoader } from "react-spinners";
 
 export default function CountryDetails() {
   const { countryName } = useParams();
@@ -52,7 +53,16 @@ export default function CountryDetails() {
   const formattedTld = tld ? tld.join(" ") : "None";
 
   return (
-    <article>
+    <article className="relative">
+      {isLoading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="absolute left-0 top-0"
+        >
+          <BounceLoader />
+        </motion.div>
+      )}
       <div className="container mx-auto grid items-center justify-center gap-10 lg:grid-cols-2">
         <div className="flex items-center justify-center">
           <AnimatePresence mode="wait">

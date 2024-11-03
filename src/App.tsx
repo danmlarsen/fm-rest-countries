@@ -5,8 +5,10 @@ import Country from "./pages/Country";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeContextProvider } from "./context/ThemeContext";
+import ErrorBoundary from "./components/ErrorBoundary";
+import NotFound from "./components/NotFound";
 
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60,
@@ -19,12 +21,21 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/country/:countryName",
-        element: <Country />,
+        errorElement: <ErrorBoundary />,
+        children: [
+          {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: "/country/:countryName",
+            element: <Country />,
+          },
+          {
+            path: "*",
+            element: <NotFound />,
+          },
+        ],
       },
     ],
   },
