@@ -22,7 +22,7 @@ export default function RegionFilter() {
   }
 
   return (
-    <div className="w-full max-w-[12.5rem] rounded-md shadow-md transition duration-300 has-[:focus]:ring-2 dark:bg-blue-500 dark:ring-white">
+    <div className="w-full max-w-[12.5rem] rounded-md shadow-lg transition duration-300 has-[:focus]:ring-2 dark:bg-blue-500 dark:ring-white">
       <select
         className="h-full cursor-pointer bg-transparent px-6 py-4 text-sm focus:outline-none dark:bg-blue-500"
         id="selectRegion"

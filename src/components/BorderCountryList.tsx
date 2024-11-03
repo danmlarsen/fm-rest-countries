@@ -34,7 +34,7 @@ export default function BorderCountryList({ borderCountries }: AppProps) {
       {borderCountries.map((country) => (
         <motion.li key={country.shortname} variants={item}>
           <NavLink
-            className="flex min-w-24 items-center justify-center px-4 py-2 shadow-md transition duration-300 hover:-translate-y-1"
+            className="flex min-w-24 items-center justify-center px-4 py-2 shadow-xl transition duration-300 hover:-translate-y-1"
             to={`/country/${country.shortname.toLowerCase()}`}
           >
             {country.name}
