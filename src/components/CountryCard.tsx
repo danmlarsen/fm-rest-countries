@@ -24,9 +24,12 @@ export default function CountryCard({ country }: AppProps) {
     <motion.article
       layout
       variants={itemVariant}
-      className="min-h-[336px] w-[264px] overflow-hidden rounded-md bg-white text-sm shadow-lg dark:bg-blue-500"
+      className="min-h-[21rem] w-[16.5rem] overflow-hidden rounded-md bg-white text-sm shadow-lg ring-offset-4 has-[:focus-visible]:ring-2 dark:bg-blue-500"
     >
-      <NavLink className="block h-full" to={`/country/${cca.toLowerCase()}`}>
+      <NavLink
+        className="block h-full focus:outline-none"
+        to={`/country/${cca.toLowerCase()}`}
+      >
         <div>
           <img
             className="h-[160px] w-full object-cover"

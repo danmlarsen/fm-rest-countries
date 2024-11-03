@@ -72,7 +72,7 @@ export default function CountryList({
         variants={containerVariant}
         initial="hidden"
         animate="show"
-        className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] justify-items-center gap-10 lg:gap-[74px]"
+        className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(16.5rem,1fr))] justify-items-center gap-10 lg:gap-[4.625rem]"
       >
         {filteredCountries.map((country) => (
           <CountryCard key={country.cca2} country={country} />

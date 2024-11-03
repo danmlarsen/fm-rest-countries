@@ -13,8 +13,8 @@ export default function CountrySearch() {
   }
 
   return (
-    <div className="relative flex w-full max-w-[480px] items-center gap-6 rounded-md px-8 shadow-md dark:bg-blue-500">
-      <HiMagnifyingGlass className="size-4 md:size-[18px]" />
+    <div className="relative flex w-full max-w-[30rem] items-center gap-6 rounded-md px-8 shadow-md transition duration-300 has-[:focus]:ring-2 dark:bg-blue-500 dark:ring-white">
+      <HiMagnifyingGlass className="size-4 md:size-[1.125rem]" />
       <input
         className="h-full w-full bg-transparent py-4 text-sm focus:outline-none dark:placeholder:text-white"
         type="text"

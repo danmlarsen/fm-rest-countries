@@ -6,7 +6,10 @@ export default function DarkModeToggle() {
   const { toggleTheme } = useContext(ThemeContext) as ThemeContextType;
 
   return (
-    <button className="flex items-center gap-2" onClick={toggleTheme}>
+    <button
+      className="flex items-center gap-2 transition duration-300 focus:outline-none focus-visible:ring-2 dark:ring-white"
+      onClick={toggleTheme}
+    >
       <HiOutlineMoon className="size-5 text-blue-500 dark:text-white" />
       <span className="font-semibold">Dark Mode</span>
     </button>

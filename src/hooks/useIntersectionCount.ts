@@ -2,7 +2,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 
 export function useIntersectionCount(
   ref: RefObject<HTMLElement>,
-  maxInterections: number,
+  maxIntersections: number,
 ) {
   const [count, setCount] = useState(0);
 
@@ -20,16 +20,16 @@ export function useIntersectionCount(
     const element = ref.current;
     const ob = observer.current;
 
-    if (element && count < maxInterections) {
+    if (element && count < maxIntersections) {
       ob.observe(element);
     }
 
-    if (count >= maxInterections) {
+    if (count >= maxIntersections) {
       ob.disconnect();
     }
 
     return () => ob.disconnect();
-  }, [ref, count, maxInterections]);
+  }, [ref, count, maxIntersections]);
 
   return count;
 }
