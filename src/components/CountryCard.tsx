@@ -37,10 +37,10 @@ export default function CountryCard({ country }: AppProps) {
             alt={flags.alt}
           />
         </div>
-        <div className="space-y-4 p-6">
+        <div className="space-y-3 p-6">
           <h2 className="text-lg font-extrabold">{name.common}</h2>
 
-          <div>
+          <div className="space-y-1">
             <p>
               <span className="font-semibold">Population: </span>
               <span className="font-light">
