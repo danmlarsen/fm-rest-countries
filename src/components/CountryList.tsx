@@ -45,12 +45,7 @@ export default function CountryList({
 
   const sortedCountries = sortTopCountries(countries);
 
-  const visibleCountries = sortedCountries?.slice(
-    0,
-    bottomIntersectionCount * PAGE_SIZE + PAGE_SIZE,
-  );
-
-  let filteredCountries = visibleCountries;
+  let filteredCountries = sortedCountries;
   if (filteredCountries) {
     if (searchParams.get("region"))
       filteredCountries = filterByRegion(
@@ -65,6 +60,11 @@ export default function CountryList({
       );
   }
 
+  const visibleCountries = filteredCountries?.slice(
+    0,
+    bottomIntersectionCount * PAGE_SIZE + PAGE_SIZE,
+  );
+
   return (
     <>
       <motion.div
@@ -74,7 +74,7 @@ export default function CountryList({
         animate="show"
         className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(16.5rem,1fr))] justify-items-center gap-10 lg:gap-[4.625rem]"
       >
-        {filteredCountries.map((country) => (
+        {visibleCountries.map((country) => (
           <CountryCard key={country.cca2} country={country} />
         ))}
       </motion.div>
